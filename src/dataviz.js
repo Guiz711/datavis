@@ -40,6 +40,12 @@ var svgBasel2 = d3
 	.attr("width", width)
 	.attr("height", height)
 
+var svgInstitutions = d3
+	.select("#institutions-map-holder")
+	.append("svg")
+	.attr("width", width)
+	.attr("height", height)
+
 var infoLabel = d3
 	.select("body")
 	.append("div")
@@ -50,6 +56,14 @@ var countriesCorruption;
 var corruption = {};
 var countriesBasel2;
 var basel2 = {};
+var banks = {};
+var institutions = {};
+var bri = {};
+var ocde = {};
+var bale = {};
+var csf = {};
+var fmi = {};
+var gafi = {};
 
 d3.json("data/world.json")
 	.then(data => {
@@ -123,16 +137,10 @@ d3.json("data/world.json")
 	.then(data => {
 		for (var i = 0; i < data.length; ++i) {
 			basel2[data[i].ISO] = data[i];
-			// for(var property in corruption[data[i].ISO]) {
-			// 	var date = parseInt(property);
-			// 	if (!isNaN(date)) {
-			// 		corruption[data[i].ISO][property] = parseFloat(corruption[data[i].ISO][property]);
-			// 		if (date < 2012)
-			// 			corruption[data[i].ISO][property] = Math.round(corruption[data[i].ISO][property] * 10);
-			// 	}
-			// }
 		}
-
+		return d3.csv("data/Banques-systémiques.csv");		
+	})
+	.then(data => {
 		var countriesGroup = svgBasel2
 			.append("g")
 			.attr("id", "map-basel2");
@@ -187,9 +195,42 @@ d3.json("data/world.json")
 				d3.select("#basel2-country" + d.id)
 					.style("stroke-width", 1);
 			})
+
+		var bankLocations = {};
+		for (var i = 0; i < data.length; ++i) {
+			banks[data[i]["Systemic bank"]] = data[i];
+			// bankLocations.push([data[i].Longitude, data[i].Latitude]);
+		}
+		console.log(banks);
+
+		svgBasel2.selectAll("circle")
+			.data(data)
+			.enter()
+			.append("circle")
+			.attr("cx", function (d) { console.log(projection([d.Longitude, d.Latitude])); return projection([d.Longitude, d.Latitude])[0]; })
+			.attr("cy", function (d) { return projection([d.Longitude, d.Latitude])[1]; })
+			.attr("r", "5px")
+			.attr("fill", "red")
+			.on("mousemove", (d) => {
+				var left = d3.event.pageX + 50;
+				var top = d3.event.pageY;
+
+				var legend = "";
+				legend += "<br>Bucket: " + d.Bucket;
+
+				infoLabel
+					.classed("hidden", false)
+					.attr("style", "left:" + left + "px; top:" + top + "px")
+					.html("<b>" + d["Systemic bank"] + "</b>" + legend);
+					
+			})
+			.on("mouseout", (d) => {
+				infoLabel.classed("hidden", true);
+			})
 		
 		setBasel2Color(countriesBasel2);
-	});
+	})
+	.then()
 
 //Date slider
 var dataTime = d3.range(0, 19).map(function(d) {

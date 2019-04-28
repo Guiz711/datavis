@@ -1,0 +1,30 @@
+﻿ISO,Pays,Siège social,Latitude,Longitude,Systemic bank,Bucket
+USA,United States of America,New York,40.7127281,-74.0060152,JP Morgan Chase ,2.50%
+USA,United States of America,New York,40.7127281,-74.0060152,Citigroup  ,2%
+DEU,Germany,Francfort,-33.502606,-70.6462769,Deutsche Bank,2%
+GBR,United Kingdom,London,51.5073219,-0.1276474,HSBC,2%
+USA,United States of America,Charlotte ,35.2270869,-80.8431268,Bank of America,1.50%
+CHN,China,Beijing,39.906217,116.3912757,Bank of China,1.50%
+GBR,United Kingdom,London,51.5073219,-0.1276474,Barclays,1.50%
+FRA,France,Paris,48.85661 ,2.3514992,BNP Paribas,1.50%
+USA,United States of America,New York,40.7127281,-74.0060152,Goldman Sachs,1.50%
+CHN,China,Beijing,39.906217,116.3912757,Industrial and Commercial Bank of China ,1.50%
+JPN,Japan,Tokyo,35.6828387,139.7594549,Limited Mitsubishi UFJ FG ,1.50%
+USA,United States of America,San Francisco,37.7792808,-122.4192363,Wells Fargo ,1.50%
+CHN,China,Beijing,39.906217,116.3912757,Agricultural Bank of China ,1%
+USA,United States of America,New York,40.7127281,-74.0060152,Bank of New York Mellon ,1%
+CHN,China,Beijing,39.906217,116.3912757,China Construction Bank,1%
+CHE,Switzerland,Zurich,47.3769434,8.5414061,Credit Suisse ,1%
+FRA,France,Paris,48.85661 ,2.3514992,Groupe BPCE,1%
+FRA,France,Montrouge,48.85661 ,2.3514992,Groupe Crédit Agricole,1%
+NLD,Netherlands,Amsterdam,52.3727598,4.8936041, ING Bank,1%
+JPN,Japan,Tokyo,35.6828387,139.7594549,Mizuho FG,1%
+USA,United States of America,New York,40.7127281,-74.0060152,Morgan Stanley,1%
+CAN,Canada,Toronto,43.653963,-79.387207,Royal Bank of Canada ,1%
+ESP,Spain,Santander,43.4620412,-3.8099719,Santander,1%
+FRA,France,Paris,48.85661 ,2.3514992,Société Générale ,1%
+GBR,United Kingdom,London,51.5073219,-0.1276474,Standard Chartered ,1%
+USA,United States of America,Boston,42.3602534,-71.0582912,State Street,1%
+CHE,Switzerland,Basel,47.5581077,7.5878261,UBS,1%
+JPN,Japan,Tokyo,35.6828387,139.7594549,Sumitomo Mitsui FG ,1%
+ITA,Italy,Milan,45.4667971,9.1904984,Unicredit Group ,1%
