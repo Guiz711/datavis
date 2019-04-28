@@ -1,14 +1,21 @@
-const width = 960; //3000;
-const height = 600; //1250;
+const width = 960;
+const height = 600;
 
-//Color scale
+//Color scales
 var shades_red = ["#ffe6e6", "#ffcccc", "#ffb3b3", "#ff9999", "#ff8080", "#ff6666", "#ff4d4d", "#ff3333", "#ff1a1a", "#ff0000", "#e60000", "#cc0000", "#b30000", "#990000", "#800000", "#660000", /*"#004d00", "#003300"*/];
 shades_red = shades_red.reverse();
 
-var colors = d3
+var shades_basel2 = ["#ffe6e6", "#ffcccc", "#ffb3b3", "#ff9999", "#ff8080", "#ff6666"];
+
+var colorsCorruption = d3
 	.scaleQuantize()
 	.domain([0, 100])
 	.range(shades_red);
+
+var colorsBasel2 = d3
+	.scaleQuantize()
+	.domain([0, 10])
+	.range(shades_basel2);
 
 //Map generation
 var projection = d3
@@ -21,8 +28,14 @@ var path = d3
 	.geoPath()
 	.projection(projection);
 
-var svg = d3
-	.select("#map-holder")
+var svgCorruption = d3
+	.select("#corruption-map-holder")
+	.append("svg")
+	.attr("width", width)
+	.attr("height", height)
+
+var svgBasel2 = d3
+	.select("#basel2-map-holder")
 	.append("svg")
 	.attr("width", width)
 	.attr("height", height)
@@ -33,15 +46,18 @@ var infoLabel = d3
 	.attr("class", "hidden infoLabel");
 
 var world;
-var countries;
+var countriesCorruption;
 var corruption = {};
+var countriesBasel2;
+var basel2 = {};
 
 d3.json("data/world.json")
-	.then((data) => {
+	.then(data => {
 		world = data;
 		return d3.csv("data/corruption.csv");
 	})
-	.then((data) => {
+	// Corruption map
+	.then(data => {
 		for (var i = 0; i < data.length; ++i) {
 			corruption[data[i].ISO] = data[i];
 			for(var property in corruption[data[i].ISO]) {
@@ -54,9 +70,9 @@ d3.json("data/world.json")
 			}
 		}
 
-		var countriesGroup = svg
+		var countriesGroup = svgCorruption
 			.append("g")
-			.attr("id", "map");
+			.attr("id", "corruption-map");
 
 		countriesGroup
 			.append("rect")
@@ -65,23 +81,20 @@ d3.json("data/world.json")
 			.attr("width", width)
 			.attr("height", height);
 
-		countries = countriesGroup
+		countriesCorruption = countriesGroup
 			.selectAll("path")
 			.data(world.features)
 			.enter()
 			.append("path")
 			.attr("d", path)
 			.attr("id", (d) => {
-			   return "country" + d.id;
+			   return "corruption-country" + d.id;
 			})
 			.attr("class", "country")
-			.style("fill", (d) => {
-				if (!corruption.hasOwnProperty(d.id) || isNaN(corruption[d.id][sliderTime.value()]))
-					return "#d0d0d0";
-				else
-					return colors(corruption[d.id][sliderTime.value()]);
-			})
 			.on("mousemove", (d) => {
+				d3.select("#corruption-country" + d.id)
+					.style("stroke-width", 2);
+
 				var left = d3.event.pageX + 50;
 				var top = d3.event.pageY;
 
@@ -93,12 +106,89 @@ d3.json("data/world.json")
 					.classed("hidden", false)
 					.attr("style", "left:" + left + "px; top:" + top + "px")
 					.html("<b>" + d.properties.name + "</b>"
-						+ "<br>Corruption : " + corruptionData);
+						+ "<br>Corruption: " + corruptionData);
 					
-			 })
-			 .on("mouseout", (d) => {
+			})
+			.on("mouseout", (d) => {
 				infoLabel.classed("hidden", true);
-			 })
+				d3.select("#corruption-country" + d.id)
+					.style("stroke-width", 1);
+			})
+
+		setCorruptionColor(countriesCorruption);
+
+		return d3.csv("data/Basel-II-components-2015.csv");
+	})
+	//Basel II map
+	.then(data => {
+		for (var i = 0; i < data.length; ++i) {
+			basel2[data[i].ISO] = data[i];
+			// for(var property in corruption[data[i].ISO]) {
+			// 	var date = parseInt(property);
+			// 	if (!isNaN(date)) {
+			// 		corruption[data[i].ISO][property] = parseFloat(corruption[data[i].ISO][property]);
+			// 		if (date < 2012)
+			// 			corruption[data[i].ISO][property] = Math.round(corruption[data[i].ISO][property] * 10);
+			// 	}
+			// }
+		}
+
+		var countriesGroup = svgBasel2
+			.append("g")
+			.attr("id", "map-basel2");
+
+		countriesGroup
+			.append("rect")
+			.attr("x", 0)
+			.attr("y", 0)
+			.attr("width", width)
+			.attr("height", height);
+
+		countriesBasel2 = countriesGroup
+			.selectAll("path")
+			.data(world.features)
+			.enter()
+			.append("path")
+			.attr("d", path)
+			.attr("id", (d) => {
+			   return "basel2-country" + d.id;
+			})
+			.attr("class", "country")
+			.on("mousemove", (d) => {
+				d3.select("#basel2-country" + d.id)
+					.style("stroke-width", 2);
+
+				if (!basel2.hasOwnProperty(d.id))
+					return;
+
+				var left = d3.event.pageX + 50;
+				var top = d3.event.pageY;
+
+				var legend = "";
+				if (basel2[d.id]["Credit risk"] != "")
+					legend += "<br>Credit risk: " + basel2[d.id]["Credit risk"];
+				if (basel2[d.id]["Operational risk"] != "")
+					legend += "<br>Operational risk: " + basel2[d.id]["Operational risk"];
+				if (basel2[d.id]["Market risk"] != "")
+					legend += "<br>Market risk: " + basel2[d.id]["Market risk"];
+				if (basel2[d.id]["Pillar II"] != "")
+					legend += "<br>" + basel2[d.id]["Pillar II"];
+				if (basel2[d.id]["Pillar III"] != "")
+					legend += "<br>" + basel2[d.id]["Pillar III"];
+
+				infoLabel
+					.classed("hidden", false)
+					.attr("style", "left:" + left + "px; top:" + top + "px")
+					.html("<b>" + d.properties.name + "</b>" + legend);
+					
+			})
+			.on("mouseout", (d) => {
+				infoLabel.classed("hidden", true);
+				d3.select("#basel2-country" + d.id)
+					.style("stroke-width", 1);
+			})
+		
+		setBasel2Color(countriesBasel2);
 	});
 
 //Date slider
@@ -117,12 +207,7 @@ var sliderTime = d3
 	.default("1998")
 	.on('onchange', val => {
 		d3.select('p#value-time').text(val);
-		countries.style("fill", (d) => {
-			if (!corruption.hasOwnProperty(d.id) || isNaN(corruption[d.id][sliderTime.value()]))
-				return "#d0d0d0";
-			else
-				return colors(corruption[d.id][sliderTime.value()]);
-		});
+		setCorruptionColor(countriesCorruption);
 	});
 
 var gTime = d3
@@ -136,3 +221,22 @@ var gTime = d3
 gTime.call(sliderTime);
 
 d3.select('p#value-time').text(sliderTime.value());
+
+//Update countries color
+function setCorruptionColor(countries) {
+	countries.style("fill", (d) => {
+		if (!corruption.hasOwnProperty(d.id) || isNaN(corruption[d.id][sliderTime.value()]))
+			return "#d0d0d0";
+		else
+			return colorsCorruption(corruption[d.id][sliderTime.value()]);
+	});
+}
+
+function setBasel2Color(countries) {
+	countries.style("fill", (d) => {
+		if (!basel2.hasOwnProperty(d.id))
+			return "#d0d0d0";
+		else
+			return colorsBasel2(basel2[d.id].Statute);
+	});
+}

@@ -6,9 +6,10 @@ body {
 	font-size: 17px;
 }
 
-#map-holder {
-	width: 100vw;
-	height: 100vh;
+.map-holder {
+	/* margin: 5vw; */
+	/* width: 100vw; */
+	/* height: 100vh; */
 }
 
 svg rect {
@@ -16,7 +17,7 @@ svg rect {
 }
 
 .country {
-	/*fill: #d0d0d0;   /* country colour */
+	position:absolute;
 	stroke: #2A2C39; /* country border colour */
 	stroke-width: 1; /* country border width */
 }
