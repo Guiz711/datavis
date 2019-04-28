@@ -40,6 +40,12 @@ var svgBasel2 = d3
 	.attr("width", width)
 	.attr("height", height)
 
+var svgBale3 = d3
+	.select("#bale3-map-holder")
+	.append("svg")
+	.attr("width", width)
+	.attr("height", height)
+
 var svgInstitutions = d3
 	.select("#institutions-map-holder")
 	.append("svg")
@@ -56,6 +62,7 @@ var countriesCorruption;
 var corruption = {};
 var countriesBasel2;
 var basel2 = {};
+var bale3 = {};
 var banks = {};
 var institutions = {};
 var bri = {};
@@ -64,7 +71,7 @@ var bale = {};
 var csf = {};
 var fmi = {};
 var gafi = {};
-var selected = bri;
+var selected = fmi;
 
 d3.json("data/world.json")
 	.then(data => {
@@ -134,7 +141,7 @@ d3.json("data/world.json")
 
 		return d3.csv("data/Basel-II-components-2015.csv");
 	})
-	//Basel II map
+	//Bale II map
 	.then(data => {
 		for (var i = 0; i < data.length; ++i) {
 			basel2[data[i].ISO] = data[i];
@@ -236,6 +243,7 @@ d3.json("data/world.json")
 		setBasel2Color(countriesBasel2);
 		return d3.csv("data/Membres-de-la-BRI.csv");		
 	})
+	//Institutions map
 	.then(data => {
 		for (var i = 0; i < data.length; ++i) {
 			bri[data[i].ISO] = data[i];
@@ -353,7 +361,112 @@ d3.json("data/world.json")
 			})
 
 		setInstitutionColor(countriesInstitutions, selected);
+		return d3.csv("data/Basel-III-by-component.csv");		
 	})
+	//Bale II map
+	// .then(data => {
+	// 	for (var i = 0; i < data.length; ++i) {
+	// 		basel2[data[i].ISO] = data[i];
+	// 	}
+	// 	return d3.csv("data/Banques-systémiques.csv");		
+	// })
+	.then(data => {
+		for (var i = 0; i < data.length; ++i) {
+			bale3[data[i].ISO] = data[i];
+		}
+		var countriesGroup = svgBale3
+			.append("g")
+			.attr("id", "map-bale3");
+
+		countriesGroup
+			.append("rect")
+			.attr("x", 0)
+			.attr("y", 0)
+			.attr("width", width)
+			.attr("height", height);
+
+		countriesBale3 = countriesGroup
+			.selectAll("path")
+			.data(world.features)
+			.enter()
+			.append("path")
+			.attr("d", path)
+			.attr("id", (d) => {
+			   return "bale3-country" + d.id;
+			})
+			.attr("class", "country")
+			.on("mousemove", (d) => {
+				d3.select("#bale3-country" + d.id)
+					.style("stroke-width", 2);
+
+				if (!bale3.hasOwnProperty(d.id))
+					return;
+
+				var left = d3.event.pageX + 50;
+				var top = d3.event.pageY;
+
+				var legend = "";
+				if (bale3[d.id]["Definition of capital"].trim() != "")
+					legend += "<br>Definition of capital: " + bale3[d.id]["Definition of capital"];
+				if (bale3[d.id]["Risk coverage"].trim() != "")
+					legend += "<br>Risk coverage: " + bale3[d.id]["Risk coverage"];
+				if (bale3[d.id]["Capital conservation buffer"].trim() != "")
+					legend += "<br>Capital conservation buffer: " + bale3[d.id]["Capital conservation buffer"];
+				if (bale3[d.id]["Countercyclical capital buffer"].trim() != "")
+					legend += "<br>Countercyclical capital buffer: " + bale3[d.id]["Countercyclical capital buffer"];
+				if (bale3[d.id]["Leverage ratio"].trim() != "")
+					legend += "<br>Leverage ratio: " + bale3[d.id]["Leverage ratio"];
+
+				infoLabel
+					.classed("hidden", false)
+					.attr("style", "left:" + left + "px; top:" + top + "px")
+					.html("<b>" + d.properties.name + "</b>" + legend);
+					
+			})
+			.on("mouseout", (d) => {
+				infoLabel.classed("hidden", true);
+				d3.select("#bale3-country" + d.id)
+					.style("stroke-width", 1);
+			})
+
+		// for (var i = 0; i < data.length; ++i) {
+		// 	if (banks.hasOwnProperty(data[i]["Siège social"]))
+		// 		banks[data[i]["Siège social"]].push(data[i]);
+		// 	else
+		// 		banks[data[i]["Siège social"]] = [data[i]];
+		// }
+
+		// svgBasel2.selectAll("circle")
+		// 	.data(data)
+		// 	.enter()
+		// 	.append("circle")
+		// 	.attr("cx", function (d) { return projection([d.Longitude, d.Latitude])[0]; })
+		// 	.attr("cy", function (d) { return projection([d.Longitude, d.Latitude])[1]; })
+		// 	.attr("r", "5px")
+		// 	.attr("fill", "red")
+		// 	.on("mousemove", (d) => {
+		// 		var left = d3.event.pageX + 50;
+		// 		var top = d3.event.pageY;
+
+		// 		var legend = "";
+		// 		var localBanks = banks[d["Siège social"]];
+		// 		for (var i = 0; i < localBanks.length; ++i) {
+		// 			legend += "<b>" + localBanks[i]["Systemic bank"] + "</b>";
+		// 			legend += "<br>Bucket: " + localBanks[i].Bucket + "<br>";
+		// 		}
+
+		// 		infoLabel
+		// 			.classed("hidden", false)
+		// 			.attr("style", "left:" + left + "px; top:" + top + "px")
+		// 			.html(legend);
+					
+		// 	})
+		// 	.on("mouseout", (d) => {
+		// 		infoLabel.classed("hidden", true);
+		// 	})
+		
+		setBale3Color(countriesBale3);
+	});
 
 //Date slider
 var dataTime = d3.range(0, 19).map(function(d) {
@@ -387,8 +500,8 @@ gTime.call(sliderTime);
 d3.select('p#value-time').text(sliderTime.value());
 
 //Institution slider
-var institutionsNamesList = ["BRI", "OCDE", "Comité de Bâle", "FSB", "FMI", "GAFI"];
-var institutionsList = [bri, ocde, bale, csf, fmi, gafi];
+var institutionsNamesList = ["FMI", "BRI", "GAFI", "OCDE", "BCBS", "FSB"];
+var institutionsList = [fmi, bri, gafi, ocde, bale, csf];
 var dataInst = d3.range(0, 5).map(function(d) {
 	return d;
 });
@@ -436,6 +549,15 @@ function setBasel2Color(countries) {
 			return "#d0d0d0";
 		else
 			return colorsBasel2(basel2[d.id].Statute);
+	});
+}
+
+function setBale3Color(countries) {
+	countries.style("fill", (d) => {
+		if (!basel2.hasOwnProperty(d.id))
+			return "#d0d0d0";
+		else
+			return colorsBasel2(bale3[d.id].Statute);
 	});
 }
 
