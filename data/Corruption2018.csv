@@ -1,0 +1,181 @@
+﻿ISO,Pays,Niveau de corruption perçu,Rang
+DNK,Denmark,88,1
+NZL,New Zealand,87,2
+FIN,Finland,85,3
+SGP,Singapore,85,3
+SWE,Sweden,85,3
+CHE,Switzerland,85,3
+NOR,Norway,84,7
+NLD,Netherlands,82,8
+CAN,Canada,81,9
+LUX,Luxembourg,81,9
+DEU,Germany,80,11
+GBR,United Kingdom,80,11
+AUS,Australia,77,13
+AUT,Austria,76,14
+HKG,Hong Kong,76,14
+ISL,Iceland,76,14
+BEL,Belgium,75,17
+EST,Estonia,73,18
+IRL,Ireland,73,18
+JPN,Japan,73,18
+FRA,France,72,21
+USA,United States of America,71,22
+ARE,United Arab Emirates,70,23
+URY,Uruguay,70,23
+BRB,Barbados,68,25
+BTN,Bhutan,68,25
+CHL,Chile,67,27
+SYC,Seychelles,66,28
+BHS,Bahamas,65,29
+PRT,Portugal,64,30
+BRN,Brunei Darussalam,63,31
+TWN,Taiwan,63,31
+QAT,Qatar,62,33
+BWA,Botswana,61,34
+ISR,Israel,61,34
+POL,Poland,60,36
+SVN,Slovenia,60,36
+CYP,Cyprus,59,38
+CZE,Czech Republic,59,38
+LTU,Lithuania,59,38
+GEO,Georgia,58,41
+LVA,Latvia,58,41
+VCT,Saint Vincent and the Grenadines,58,41
+ESP,Spain,58,41
+CPV,Cabo Verde,57,45
+DMA,Dominica,57,45
+KOR,"Korea, South",57,45
+CRI,Costa Rica,56,48
+RWA,Rwanda,56,48
+LCA,Saint Lucia,55,50
+MLT,Malta,54,51
+NAM,Namibia,53,52
+GRD,Grenada,52,53
+ITA,Italy,52,53
+OMN,Oman,52,53
+MUS,Mauritius,51,56
+SVK,Slovakia,50,57
+JOR,Jordan,49,58
+SAU,Saudi Arabia,49,58
+HRV,Croatia,48,60
+CUB,Cuba,47,61
+MYS,Malaysia,47,61
+ROU,Romania,47,61
+HUN,Hungary,46,64
+STP,Sao Tome and Principe,46,64
+VUT,Vanuatu,46,64
+GRC,Greece,45,67
+MNE,Montenegro,45,67
+SEN,Senegal,45,67
+BLR,Belarus,44,70
+JAM,Jamaica,44,70
+SLB,Solomon Islands,44,70
+MAR,Morocco,43,73
+ZAF,South Africa,43,73
+SUR,Suriname,43,73
+TUN,Tunisia,43,73
+BGR,Bulgaria,42,77
+BFA,Burkina Faso,41,78
+GHA,Ghana,41,78
+IND,India,41,78
+KWT,Kuwait,41,78
+LSO,Lesotho,41,78
+TTO,Trinidad and Tobago,41,78
+TUR,Turkey,41,78
+ARG,Argentina,40,85
+BEN,Benin,40,85
+CHN,China,39,87
+SRB,Serbia,39,87
+BIH,Bosnia and Herzegovina,38,89
+IDN,Indonesia,38,89
+LKA,Sri Lanka,38,89
+SWZ,Swaziland,38,89
+GMB,Gambia,37,93
+GUY,Guyana,37,93
+KSV,Kosovo,37,93
+MKD,Macedonia,37,93
+MNG,Mongolia,37,93
+PAN,Panama,37,93
+ALB,Albania,36,99
+BHR,Bahrain,36,99
+COL,Colombia,36,99
+PHL,Philippines,36,99
+TZA,Tanzania,36,99
+THA,Thailand,36,99
+DZA,Algeria,35,105
+ARM,Armenia,35,105
+BRA,Brazil,35,105
+CIV,Cote d'Ivoire,35,105
+EGY,Egypt,35,105
+SLV,El Salvador,35,105
+PER,Peru,35,105
+TLS,Timor-Leste,35,105
+ZMB,Zambia,35,105
+ECU,Ecuador,34,114
+ETH,Ethiopia,34,114
+NER,Niger,34,114
+MDA,Moldova,33,117
+PAK,Pakistan,33,117
+VNM,Vietnam,33,117
+LBR,Liberia,32,120
+MWI,Malawi,32,120
+MLI,Mali,32,120
+UKR,Ukraine,32,120
+DJI,Djibouti,31,124
+GAB,Gabon,31,124
+KAZ,Kazakhstan,31,124
+MDV,Maldives,31,124
+NPL,Nepal,31,124
+DOM,Dominican Republic,30,129
+SLE,Sierra Leone,30,129
+TGO,Togo,30,129
+BOL,Bolivia,29,132
+HND,Honduras,29,132
+KGZ,Kyrgyzstan,29,132
+LAO,Laos,29,132
+MMR,Myanmar,29,132
+PRY,Paraguay,29,132
+GIN,Guinea,28,138
+IRN,Iran,28,138
+LBN,Lebanon,28,138
+MEX,Mexico,28,138
+PNG,Papua New Guinea,28,138
+RUS,Russia,28,138
+COM,Comoros,27,144
+GTM,Guatemala,27,144
+KEN,Kenya,27,144
+MRT,Mauritania,27,144
+NGA,Nigeria,27,144
+BGD,Bangladesh,26,149
+CAF,Central African Republic,26,149
+UGA,Uganda,26,149
+AZE,Azerbaijan,25,152
+CMR,Cameroon,25,152
+MDG,Madagascar,25,152
+NIC,Nicaragua,25,152
+TJK,Tajikistan,25,152
+ERI,Eritrea,24,157
+MOZ,Mozambique,23,158
+UZB,Uzbekistan,23,158
+ZWE,Zimbabwe,22,160
+KHM,Cambodia,20,161
+COD,Democratic Republic of the Congo,20,161
+HTI,Haiti,20,161
+TKM,Turkmenistan,20,161
+AGO,Angola,19,165
+TCD,Chad,19,165
+COG,Congo,19,165
+IRQ,Iraq,18,168
+VEN,Venezuela,18,168
+BDI,Burundi,17,170
+LBY,Libya,17,170
+AFG,Afghanistan,16,172
+GNQ,Equatorial Guinea,16,172
+GNB,Guinea Bissau,16,172
+SDN,Sudan,16,172
+PRK,"Korea, North",14,176
+YEM,Yemen,14,176
+SSD,South Sudan,13,178
+SYR,Syria,13,178
+SOM,Somalia,10,180

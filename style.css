@@ -6,6 +6,10 @@ body {
 	font-size: 17px;
 }
 
+h1 {
+	text-align: center;
+}
+
 .map-holder {
 	/* margin: 5vw; */
 	/* width: 100vw; */
@@ -13,7 +17,8 @@ body {
 }
 
 svg rect {
-	fill: #2A2C39;   /* map background colour */
+	/*fill: #2A2C39;   /* map background colour */
+	fill: #FFFFFF;   /* map background colour */
 }
 
 .country {

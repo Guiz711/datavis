@@ -76,20 +76,20 @@ var selected = fmi;
 d3.json("data/world.json")
 	.then(data => {
 		world = data;
-		return d3.csv("data/corruption.csv");
+		return d3.csv("data/Corruption2018.csv");
 	})
 	// Corruption map
 	.then(data => {
 		for (var i = 0; i < data.length; ++i) {
 			corruption[data[i].ISO] = data[i];
-			for(var property in corruption[data[i].ISO]) {
-				var date = parseInt(property);
-				if (!isNaN(date)) {
-					corruption[data[i].ISO][property] = parseFloat(corruption[data[i].ISO][property]);
-					if (date < 2012)
-						corruption[data[i].ISO][property] = Math.round(corruption[data[i].ISO][property] * 10);
-				}
-			}
+			// for(var property in corruption[data[i].ISO]) {
+			// 	var date = parseInt(property);
+			// 	if (!isNaN(date)) {
+			// 		corruption[data[i].ISO][property] = parseFloat(corruption[data[i].ISO][property]);
+			// 		if (date < 2012)
+			// 			corruption[data[i].ISO][property] = Math.round(corruption[data[i].ISO][property] * 10);
+			// 	}
+			// }
 		}
 
 		var countriesGroup = svgCorruption
@@ -121,14 +121,15 @@ d3.json("data/world.json")
 				var top = d3.event.pageY;
 
 				var corruptionData = "Info Manquante";
-				if (corruption.hasOwnProperty(d.id) && !isNaN(corruption[d.id][sliderTime.value()]))
-					corruptionData = corruption[d.id][sliderTime.value()];
+				if (corruption.hasOwnProperty(d.id)) {
+					corruptionData = "<br>Niveau de corruption perçu: " + corruption[d.id]["Niveau de corruption perçu"];
+					corruptionData += "<br>Rang: " + corruption[d.id].Rang;
+				}
 
 				infoLabel
 					.classed("hidden", false)
 					.attr("style", "left:" + left + "px; top:" + top + "px")
-					.html("<b>" + d.properties.name + "</b>"
-						+ "<br>Corruption: " + corruptionData);
+					.html("<b>" + d.properties.name + "</b>" + corruptionData);
 					
 			})
 			.on("mouseout", (d) => {
@@ -191,6 +192,8 @@ d3.json("data/world.json")
 					legend += "<br>" + basel2[d.id]["Pillar II"];
 				if (basel2[d.id]["Pillar III"] != "")
 					legend += "<br>" + basel2[d.id]["Pillar III"];
+				if (basel2[d.id]["Pays membres"] != "")
+					legend += "<br>" + basel2[d.id]["Pays membres"];
 
 				infoLabel
 					.classed("hidden", false)
@@ -416,6 +419,8 @@ d3.json("data/world.json")
 					legend += "<br>Countercyclical capital buffer: " + bale3[d.id]["Countercyclical capital buffer"];
 				if (bale3[d.id]["Leverage ratio"].trim() != "")
 					legend += "<br>Leverage ratio: " + bale3[d.id]["Leverage ratio"];
+				if (bale3[d.id]["Pays membres "].trim() != "")
+					legend += "<br>" + bale3[d.id]["Pays membres "];
 
 				infoLabel
 					.classed("hidden", false)
@@ -469,35 +474,35 @@ d3.json("data/world.json")
 	});
 
 //Date slider
-var dataTime = d3.range(0, 19).map(function(d) {
-	return (1998 + d);
-});
+// var dataTime = d3.range(0, 19).map(function(d) {
+// 	return (1998 + d);
+// });
 	
-var sliderTime = d3
-	.sliderBottom()
-	.min(d3.min(dataTime))
-	.max(d3.max(dataTime))
-	.step(1)
-	.width(500)
-	.tickFormat(d3.format("4"))
-	.tickValues(dataTime)
-	.default("1998")
-	.on('onchange', val => {
-		d3.select('p#value-time').text(val);
-		setCorruptionColor(countriesCorruption);
-	});
+// var sliderTime = d3
+// 	.sliderBottom()
+// 	.min(d3.min(dataTime))
+// 	.max(d3.max(dataTime))
+// 	.step(1)
+// 	.width(500)
+// 	.tickFormat(d3.format("4"))
+// 	.tickValues(dataTime)
+// 	.default("1998")
+// 	.on('onchange', val => {
+// 		d3.select('p#value-time').text(val);
+// 		setCorruptionColor(countriesCorruption);
+// 	});
 
-var gTime = d3
-	.select('div#slider-time')
-	.append('svg')
-	.attr('width', 700)
-	.attr('height', 100)
-	.append('g')
-	.attr('transform', 'translate(30,30)');
+// var gTime = d3
+// 	.select('div#slider-time')
+// 	.append('svg')
+// 	.attr('width', 700)
+// 	.attr('height', 100)
+// 	.append('g')
+// 	.attr('transform', 'translate(30,30)');
 
-gTime.call(sliderTime);
+// gTime.call(sliderTime);
 
-d3.select('p#value-time').text(sliderTime.value());
+// d3.select('p#value-time').text(sliderTime.value());
 
 //Institution slider
 var institutionsNamesList = ["FMI", "BRI", "GAFI", "OCDE", "BCBS", "FSB"];
@@ -536,10 +541,10 @@ d3.select('p#value-inst').text(institutionsNamesList[sliderInst.value()]);
 //Update countries color
 function setCorruptionColor(countries) {
 	countries.style("fill", (d) => {
-		if (!corruption.hasOwnProperty(d.id) || isNaN(corruption[d.id][sliderTime.value()]))
+		if (!corruption.hasOwnProperty(d.id))
 			return "#d0d0d0";
 		else
-			return colorsCorruption(corruption[d.id][sliderTime.value()]);
+			return colorsCorruption(corruption[d.id]["Niveau de corruption perçu"]);
 	});
 }
 
