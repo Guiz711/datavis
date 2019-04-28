@@ -64,6 +64,7 @@ var bale = {};
 var csf = {};
 var fmi = {};
 var gafi = {};
+var selected = bri;
 
 d3.json("data/world.json")
 	.then(data => {
@@ -196,21 +197,18 @@ d3.json("data/world.json")
 					.style("stroke-width", 1);
 			})
 
-		var bankLocations = {};
 		for (var i = 0; i < data.length; ++i) {
 			if (banks.hasOwnProperty(data[i]["Siège social"]))
 				banks[data[i]["Siège social"]].push(data[i]);
 			else
 				banks[data[i]["Siège social"]] = [data[i]];
-			// bankLocations.push([data[i].Longitude, data[i].Latitude]);
 		}
-		console.log(banks);
 
 		svgBasel2.selectAll("circle")
 			.data(data)
 			.enter()
 			.append("circle")
-			.attr("cx", function (d) { console.log(projection([d.Longitude, d.Latitude])); return projection([d.Longitude, d.Latitude])[0]; })
+			.attr("cx", function (d) { return projection([d.Longitude, d.Latitude])[0]; })
 			.attr("cy", function (d) { return projection([d.Longitude, d.Latitude])[1]; })
 			.attr("r", "5px")
 			.attr("fill", "red")
@@ -225,7 +223,6 @@ d3.json("data/world.json")
 					legend += "<br>Bucket: " + localBanks[i].Bucket + "<br>";
 				}
 
-
 				infoLabel
 					.classed("hidden", false)
 					.attr("style", "left:" + left + "px; top:" + top + "px")
@@ -237,8 +234,126 @@ d3.json("data/world.json")
 			})
 		
 		setBasel2Color(countriesBasel2);
+		return d3.csv("data/Membres-de-la-BRI.csv");		
 	})
-	.then()
+	.then(data => {
+		for (var i = 0; i < data.length; ++i) {
+			bri[data[i].ISO] = data[i];
+		}
+		return d3.csv("data/Membres-de-lOCDE.csv");
+	})
+	.then(data => {
+		for (var i = 0; i < data.length; ++i) {
+			ocde[data[i].ISO] = data[i];
+		}
+		return d3.csv("data/Membres-du-Comité-de-Bâle.csv");
+	})
+	.then(data => {
+		for (var i = 0; i < data.length; ++i) {
+			bale[data[i].ISO] = data[i];
+		}
+		return d3.csv("data/Membres-du-Comité-de-Stabilité-Financière.csv");
+	})
+	.then(data => {
+		for (var i = 0; i < data.length; ++i) {
+			csf[data[i].ISO] = data[i];
+		}
+		return d3.csv("data/Membres-du-FMI.csv");
+	})
+	.then(data => {
+		for (var i = 0; i < data.length; ++i) {
+			fmi[data[i].ISO] = data[i];
+		}
+		return d3.csv("data/Membres-du-GAFI.csv");
+	})
+	.then(data => {
+		for (var i = 0; i < data.length; ++i) {
+			gafi[data[i].ISO] = data[i];
+		}
+		return d3.csv("data/Institutions-financières.csv");
+	})
+	.then(data => {
+		var countriesGroup = svgInstitutions
+			.append("g")
+			.attr("id", "institutions-map");
+
+		countriesGroup
+			.append("rect")
+			.attr("x", 0)
+			.attr("y", 0)
+			.attr("width", width)
+			.attr("height", height);
+
+		countriesInstitutions = countriesGroup
+			.selectAll("path")
+			.data(world.features)
+			.enter()
+			.append("path")
+			.attr("d", path)
+			.attr("id", (d) => {
+			   return "institutions-country" + d.id;
+			})
+			.attr("class", "country")
+			.on("mousemove", (d) => {
+				d3.select("#institutions-country" + d.id)
+					.style("stroke-width", 2);
+
+				var left = d3.event.pageX + 50;
+				var top = d3.event.pageY;
+
+				if (!selected.hasOwnProperty(d.id))
+					return;
+
+				infoLabel
+					.classed("hidden", false)
+					.attr("style", "left:" + left + "px; top:" + top + "px")
+					.html("<b>" + selected[d.id].Pays + "</b>");
+					
+			})
+			.on("mouseout", (d) => {
+				infoLabel.classed("hidden", true);
+				d3.select("#institutions-country" + d.id)
+					.style("stroke-width", 1);
+			})
+
+		for (var i = 0; i < data.length; ++i) {
+			if (institutions.hasOwnProperty(data[i]["Ville"]))
+				institutions[data[i]["Ville"]].push(data[i]);
+			else
+				institutions[data[i]["Ville"]] = [data[i]];
+		}
+
+		svgInstitutions.selectAll("circle")
+			.data(data)
+			.enter()
+			.append("circle")
+			.attr("cx", function (d) { return projection([d.Longitude, d.Latitude])[0]; })
+			.attr("cy", function (d) { return projection([d.Longitude, d.Latitude])[1]; })
+			.attr("r", "5px")
+			.attr("fill", "red")
+			.on("mousemove", (d) => {
+				var left = d3.event.pageX + 50;
+				var top = d3.event.pageY;
+
+				var legend = "";
+				var localinstitutions = institutions[d["Ville"]];
+				for (var i = 0; i < localinstitutions.length; ++i) {
+					legend += "<b>" + localinstitutions[i]["Institutions"] + "</b>";
+					legend += "<br>Nombre de pays membres: " + localinstitutions[i]["Nombre de pays membres"] + "<br>";
+				}
+
+				infoLabel
+					.classed("hidden", false)
+					.attr("style", "left:" + left + "px; top:" + top + "px")
+					.html(legend);
+					
+			})
+			.on("mouseout", (d) => {
+				infoLabel.classed("hidden", true);
+			})
+
+		setInstitutionColor(countriesInstitutions, selected);
+	})
 
 //Date slider
 var dataTime = d3.range(0, 19).map(function(d) {
@@ -271,6 +386,40 @@ gTime.call(sliderTime);
 
 d3.select('p#value-time').text(sliderTime.value());
 
+//Institution slider
+var institutionsNamesList = ["BRI", "OCDE", "Comité de Bâle", "FSB", "FMI", "GAFI"];
+var institutionsList = [bri, ocde, bale, csf, fmi, gafi];
+var dataInst = d3.range(0, 5).map(function(d) {
+	return d;
+});
+	
+var sliderInst = d3
+	.sliderBottom()
+	.min(d3.min(dataInst))
+	.max(d3.max(dataInst))
+	.step(1)
+	.width(500)
+	.tickFormat(d3.format("1"))
+	.tickValues(dataInst)
+	.default(0)
+	.on('onchange', val => {
+		d3.select('p#value-inst').text(institutionsNamesList[val]);
+		selected = institutionsList[val];
+		setInstitutionColor(countriesInstitutions, selected);
+	});
+
+var gInst = d3
+	.select('div#slider-inst')
+	.append('svg')
+	.attr('width', 700)
+	.attr('height', 100)
+	.append('g')
+	.attr('transform', 'translate(30,30)');
+
+gInst.call(sliderInst);
+
+d3.select('p#value-inst').text(institutionsNamesList[sliderInst.value()]);
+
 //Update countries color
 function setCorruptionColor(countries) {
 	countries.style("fill", (d) => {
@@ -287,5 +436,14 @@ function setBasel2Color(countries) {
 			return "#d0d0d0";
 		else
 			return colorsBasel2(basel2[d.id].Statute);
+	});
+}
+
+function setInstitutionColor(countries, data) {
+	countries.style("fill", (d) => {
+		if (!data.hasOwnProperty(d.id))
+			return "#d0d0d0";
+		else
+			return "#2CA02C";
 	});
 }
