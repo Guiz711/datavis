@@ -26,8 +26,21 @@ var infoLabel = d3
 	.append("div")
 	.attr("class", "hidden infoLabel");
 
+var world;
+var corruption = {};
+
 d3.json("data/world.json")
-	.then((world) => {
+	.then((data) => {
+		world = data;
+		return d3.csv("data/corruption.csv");
+	})
+	.then((data) => {
+		var max  = 0;
+		for (var i = 0; i < data.length; ++i) {
+			corruption[data[i].Jurisdiction] = parseFloat(data[i]["2005"]);
+		}
+
+		console.log(corruption);
 		var countriesGroup = svg
 			.append("g")
 			.attr("id", "map");
@@ -52,10 +65,14 @@ d3.json("data/world.json")
 			.on("mousemove", (d) => {
 				var left = d3.event.pageX + 50;
 				var top = d3.event.pageY;
+				var corruptionData = corruption[d.properties.name];
+				if (isNaN(corruptionData))
+					corruptionData = "Info Manquante";
 				infoLabel
 					.classed("hidden", false)
 					.attr("style", "left:" + left + "px; top:" + top + "px")
-					.html("<b>" + d.properties.name + "</b>");
+					.html("<b>" + d.properties.name + "</b>"
+						+ "<br>Corruption : " + corruptionData);
 					
 			 })
 			 .on("mouseout", (d) => {
