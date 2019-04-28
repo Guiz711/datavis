@@ -5,7 +5,7 @@ const height = 600;
 var shades_red = ["#ffe6e6", "#ffcccc", "#ffb3b3", "#ff9999", "#ff8080", "#ff6666", "#ff4d4d", "#ff3333", "#ff1a1a", "#ff0000", "#e60000", "#cc0000", "#b30000", "#990000", "#800000", "#660000", /*"#004d00", "#003300"*/];
 shades_red = shades_red.reverse();
 
-var shades_basel2 = ["#ffe6e6", "#ffcccc", "#ffb3b3", "#ff9999", "#ff8080", "#ff6666"];
+var shades_basel2 = ["#e5feff", "#d1f0f6", "#a9d1e5", "#80B3D3", "#5995C2", "#2CA02C"];
 
 var colorsCorruption = d3
 	.scaleQuantize()
