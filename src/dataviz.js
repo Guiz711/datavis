@@ -198,7 +198,10 @@ d3.json("data/world.json")
 
 		var bankLocations = {};
 		for (var i = 0; i < data.length; ++i) {
-			banks[data[i]["Systemic bank"]] = data[i];
+			if (banks.hasOwnProperty(data[i]["Siège social"]))
+				banks[data[i]["Siège social"]].push(data[i]);
+			else
+				banks[data[i]["Siège social"]] = [data[i]];
 			// bankLocations.push([data[i].Longitude, data[i].Latitude]);
 		}
 		console.log(banks);
@@ -216,12 +219,17 @@ d3.json("data/world.json")
 				var top = d3.event.pageY;
 
 				var legend = "";
-				legend += "<br>Bucket: " + d.Bucket;
+				var localBanks = banks[d["Siège social"]];
+				for (var i = 0; i < localBanks.length; ++i) {
+					legend += "<b>" + localBanks[i]["Systemic bank"] + "</b>";
+					legend += "<br>Bucket: " + localBanks[i].Bucket + "<br>";
+				}
+
 
 				infoLabel
 					.classed("hidden", false)
 					.attr("style", "left:" + left + "px; top:" + top + "px")
-					.html("<b>" + d["Systemic bank"] + "</b>" + legend);
+					.html(legend);
 					
 			})
 			.on("mouseout", (d) => {
