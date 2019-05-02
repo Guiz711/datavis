@@ -245,6 +245,8 @@ d3.json("data/world.json")
 			})
 		
 		setBasel2Color(countriesBasel2);
+		createBale2Legend();
+
 		return d3.csv("data/Membres-de-la-BRI.csv");		
 	})
 	//Institutions map
@@ -365,6 +367,8 @@ d3.json("data/world.json")
 			})
 
 		setInstitutionColor(countriesInstitutions, selected);
+		createInstitutionsLegend();
+
 		return d3.csv("data/Basel-III-by-component.csv");		
 	})
 	//Bale II map
@@ -472,6 +476,7 @@ d3.json("data/world.json")
 		// 	})
 		
 		setBale3Color(countriesBale3);
+		createBale3Legend();
 	});
 
 //Date slider
@@ -624,4 +629,16 @@ function createCorruptionLegend() {
 	//texte min et max
 	legend_div.selectAll(".coloration_card").select('.lowest').text("" + 100);
 	legend_div.selectAll(".coloration_card").select('.highest').text("" + 0);
+}
+
+function createBale2Legend() {
+
+}
+
+function createBale3Legend() {
+	
+}
+
+function createInstitutionsLegend() {
+
 }
