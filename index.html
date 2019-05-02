@@ -9,8 +9,74 @@
 	<script src="src/d3.js"></script>
 	<script src="https://unpkg.com/d3-simple-slider"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
 </head>
 <body>
+
+	<div class="container m-5">
+		<div class="row align-items-center">
+			<h1>I. La transposition complexe des standards bâlois </h1>
+		</div>
+		<div class="row align-items-center">
+			<h2><i>A. Le Comité de Bâle, un concensus des puissants face aux pays émergeants</i></h2>
+		</div>
+		<div class="row align-items-center resume">
+			<P>Le Comité de Bâle sur le contrôle bancaire (Comité de Bâle) a  été créé en 1974 par le groupe des Dix
+			qui en étaient les seuls membres jusqu'en 2009, année à laquelle certains pays du G20 furent également invités à prendre part
+			aux travaux du Comité. Les standards de Bâle sont ainsi initialement pensés par les pays les plus développés,
+			pour les pays les plus développés (A) et n'ont pas sur s'imposer comme barrière contre la crise en 2008 (B)
+			rendant la transposition de ces recommandations à d'autres structures économiques extrêmement complexe.
+			</P>
+			<P>Mais blablabla</P>
+		</div>
+	</div>
+
+	<div class="container m-5">
+		<div class="row align-items-center">
+			<h3><b>1. Une architecture financière internationale...</b></h3>
+		</div>
+		<div class="row align-items-center resume">
+   			<P>De plus, le nombre croissant d'institutions financières internationales à composition variable interroge sur le réel centre de gravité
+			et le véritable centre de prise de décisions. En effet, certaines institutions sont ouvertes à tous les Etats comme le FMI
+			ou la Banque Mondiale. D'autres institutions restreignent légèrement leur accès comme la Banque des Règlements Internationaux (BRI)
+			qui comprend soixante banques centrales membres. L'OCDE comprend moins d'une quarantaine d'Etats membres.
+			Le Comité de Bâle comprends vingt-sept Etats membres plus l'Union Européenne. Enfin, le Conseil de stabilité financière comprend
+			vingt-quatre Etats membres. (Bismuth 2015)\footnote{Droit et crise financière, Régis Bismuth, L'architecture financière
+			internationale p. 106}
+			</P>
+		</div>
+		<div class="row align-items-center">
+			<div class="col-sm-2"><p id="value-inst"></p></div>
+			<div class="col-sm"><div id="slider-inst"></div></div>
+		</div>
+		<div class="row align-items-center">
+			<div class="col map-holder" id="institutions-map-holder"></div>
+		</div>
+	</div>
+
+	<div class="container m-5">
+		<div class="row align-items-center">
+			<h3><b>2. ...qui ne reflète pas l'hétérogénéité des structures économiques </b></h3>
+		</div>
+	</div>
+
+	<div class="container m-5">
+		<div class="row align-items-center">
+			<h1>Adoption de Bâle II par les pays non-membres du Comité de Bâle</h1>
+		</div>
+		<div class="row align-items-center">
+			<div class="map-holder" id="basel2-map-holder"></div>
+		</div>
+	</div>
+	<div class="container m-5">
+		<div class="row align-items-center">
+			<h1>Adoption de Bâle III par les pays non-membres du Comité de Bâle</h1>
+		</div>
+		<div class="row align-items-center">
+			<div class="map-holder" id="bale3-map-holder"></div>
+		</div>
+	</div>
 	<div class="container m-5">
 		<div class="row align-items-center">
 			<h1>Niveaux de corruption perçue dans le monde en 2018</h1>
@@ -20,37 +86,11 @@
 			<div class="col-sm"><div id="slider-time"></div></div>
 		</div>
 		<div class="row align-items-center">
-			<div class="map-holder" id="corruption-map-holder"></div>	
+			<div class="col-sm-1" id="legend1"></div>
+			<div class="map-holder" id="corruption-map-holder"></div>
 		</div>
 	</div>
-	<div class="container m-5">
-		<div class="row align-items-center">
-			<h1>Variabilité de composition des institutions financières </h1>
-		</div>
-		<div class="row align-items-center">
-			<div class="col-sm-2"><p id="value-inst"></p></div>
-			<div class="col-sm"><div id="slider-inst"></div></div>
-		</div>
-		<div class="row align-items-center">
-			<div class="map-holder" id="institutions-map-holder"></div>	
-		</div>
-	</div>
-	<div class="container m-5">
-		<div class="row align-items-center">
-			<h1>Adoption de Bâle II par les pays non-membres du Comité de Bâle</h1>
-		</div>
-		<div class="row align-items-center">
-			<div class="map-holder" id="basel2-map-holder"></div>	
-		</div>
-	</div>
-	<div class="container m-5">
-		<div class="row align-items-center">
-			<h1>Adoption de Bâle III par les pays non-membres du Comité de Bâle</h1>
-		</div>
-		<div class="row align-items-center">
-			<div class="map-holder" id="bale3-map-holder"></div>	
-		</div>
-	</div>
+
 	<script src="src/dataviz.js"></script>
 </body>
 </html>

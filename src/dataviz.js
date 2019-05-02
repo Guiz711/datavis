@@ -139,6 +139,7 @@ d3.json("data/world.json")
 			})
 
 		setCorruptionColor(countriesCorruption);
+		createCorruptionLegend();
 
 		return d3.csv("data/Basel-II-components-2015.csv");
 	})
@@ -510,7 +511,7 @@ var institutionsList = [fmi, bri, gafi, ocde, bale, csf];
 var dataInst = d3.range(0, 5).map(function(d) {
 	return d;
 });
-	
+
 var sliderInst = d3
 	.sliderBottom()
 	.min(d3.min(dataInst))
@@ -573,4 +574,54 @@ function setInstitutionColor(countries, data) {
 		else
 			return "#2CA02C";
 	});
+}
+
+function createCorruptionLegend() {
+	//sélection de la bonne div
+	var legend_div = d3.select("#legend1");
+
+	var coloration_card = legend_div.append("div")
+		.attr("class", "coloration_card")
+	
+	//titre de la légende
+	coloration_card.append("h6")
+		.text("Niveau de corruption")
+
+	//création des carrés pour le dégradé
+	var coloration_card_svg = coloration_card.append("svg")
+		.attr("height", "180")
+		.attr("width", "180");
+	coloration_card_svg.append("text")
+		.attr("x", 30)
+		.attr("y", 12)
+		.attr("class", "highest")
+		.attr("font-size", "15px")
+		.attr("fill", "black")
+		.text("");
+	coloration_card_svg.append("text")
+		.attr("x", 30)
+		.attr("y", 10 * shades_red.length)
+		.attr("class", "lowest")
+		.attr("font-size", "15px")
+		.attr("fill", "black")
+		.text("");
+	for (var i = 0; i < shades_red.length; i++) {
+		coloration_card_svg.append("rect")
+			.attr("x", 0)
+			.attr("y", 10 * i)
+			.attr("class", "rectangle")
+			.attr("width", 20)
+			.attr("height", 10)
+			.style("fill", "#fff");
+	}
+
+	//couleur des carrés pour le dégradé
+	legend_div.selectAll(".coloration_card").selectAll('.rectangle')
+		.style("fill", function (d, i) {
+			return shades_red[shades_red.length - i]
+		});
+
+	//texte min et max
+	legend_div.selectAll(".coloration_card").select('.lowest').text("" + 100);
+	legend_div.selectAll(".coloration_card").select('.highest').text("" + 0);
 }
